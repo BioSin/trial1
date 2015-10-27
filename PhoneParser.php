@@ -69,12 +69,13 @@ class PhoneParser
      */
     protected function findCountryCode(Phone $phone)
     {
-        $phone->countryCode = substr($phone->phone, 0, strlen($phone->phone)-10);
+        $code = substr($phone->phone, 0, strlen($phone->phone)-10);
 
         // looking for prefix
         foreach ($this->prefixMap as $prefix=>$iso) {
-            if (strpos($phone->countryCode, (string) $prefix) === 0) {
+            if (strpos($code, (string) $prefix) === 0) {
                 $phone->iso = $iso;
+                $phone->countryCode = (string) $prefix;
                 $phone->checked = true;
                 break;
             }
